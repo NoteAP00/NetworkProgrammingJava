@@ -4,7 +4,7 @@ public class JavaBinaryCopy {
     public static void main(String[] args) {
         try {
             if (args.length != 2) {
-                throw new IllegalArgumentException();
+                throw new FileNotFoundException();
             }
 
             String Sdir = args[0];
@@ -25,8 +25,6 @@ public class JavaBinaryCopy {
             fout.write(b);
             fout.close();
 
-        } catch (IllegalArgumentException e) {
-            System.out.println("Usage : java JavaBinaryCopy <source file> <destination file>");
         } catch (FileNotFoundException e){
             System.out.println("Usage : java JavaBinaryCopy <source file> <destination file>");
         } catch (Exception e){
