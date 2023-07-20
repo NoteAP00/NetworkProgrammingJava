@@ -22,12 +22,12 @@ public class JavaTextCopy {
             while((msg = br.readLine()) != null){
                 pout.println(msg);
             }
-            
+
             fin.close();
             pout.flush();
             fout.close();
         } catch (FileNotFoundException e){
-            System.out.println("Usage : java JavaBinaryCopy <source file> <destination file>");
+            System.out.println("Usage : java JavaTextCopy <source file> <destination file>");
         } catch (Exception e){
             e.printStackTrace();
         }
