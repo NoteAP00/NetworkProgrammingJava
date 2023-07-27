@@ -1,7 +1,8 @@
+import  java.io.*;
 public class JavaSyncTest implements Runnable {
 
     static volatile int balance = 0;
-    private Object o = new Object();
+    private static Object o = new Object();
 
     public void run() {
         for (int i = 0; i < 100000; i++) {
@@ -27,10 +28,12 @@ public class JavaSyncTest implements Runnable {
         t1.start(); t2.start(); t3.start();
 
         try {
-            t1.join(); t2.join(); t3.join();
+            t1.join(); 
+            t2.join(); 
+            t3.join();
         } catch (Exception e) {
             // TODO: handle exception
         }
-        System.out.println("Balance = " + JavaSyncTest.getBalance());
+        System.out.println("Balance = " + j1.getBalance());
     }
 }
