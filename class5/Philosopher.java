@@ -1,0 +1,62 @@
+import java.util.*;
+
+public class Philosopher extends Thread {
+    Fork left, right; // อ้างอิงถึง object ของส้อมด้านซ้ายและด้านขวาของ Philosopher
+    String name; // ชื่อของ Philosopher
+    String status = "---"; // สถานะของ Philosopher
+    int numEat = 0;
+    boolean done = false;
+    Random r = new Random();
+
+    public Philosopher(String name, Fork left, Fork right) { // รับชื่อ Philosopher และ object ของส้อมซ้าย-ขวา
+        this.left = left;
+        this.right = right;
+        this.name = name;
+    }
+
+    public String getStatus() {
+        return status;
+    } // เรียกเพื่อคืนค่าสถานะของ Philosopher
+
+    public int getNumEat() {
+        return numEat;
+    } // เรียกเพื่อคืนค่าจำนวนครั้งที่ Philosopher ได้กินอาหาร
+
+    public void done() {
+        done = true;
+    } // เรียกเพื่อหยุดการทำงานของ Philosopher
+
+    public void think() { // เรียกเพื่อให้ Philosopher อยู่ในสถานะ คิด (THK)
+        status = "THK";
+        try {
+            Thread.sleep(r.nextInt(150) + 150);
+        } catch (Exception e) {
+        }
+    }
+
+    public void eat() { // เรียกเพื่อให้ Philosopher อยู่ในสถานะ กิน (EAT)
+        status = "EAT";
+        try {
+            Thread.sleep(r.nextInt(150) + 150);
+        } catch (Exception e) {
+        }
+    }
+
+    // Philosopher จะเริ่มต้นที่คิดเมื่อคิดเสร็จจะหยิบส้อม เมื่อได้ส้อม 2
+    // อันถึงจะสามารถกินได้ เมื่อกินส าเร็จให้เพิ่มค่า numEat
+    public void run() {
+        while (!done) {
+            think();
+            boolean lt = left.take(name);
+            boolean rt = right.take(name);
+            if(lt & rt){
+                eat();
+                numEat++;
+                done();
+            }else{
+                if(lt) left.putDown();
+                else if (rt) right.putDown(); 
+            }
+        }
+    }
+}
