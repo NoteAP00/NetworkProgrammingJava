@@ -1,14 +1,18 @@
 public class DiningPhilosophers {
     public static void main(String[] args) {
         int n = Integer.parseInt(args[0]);
-        Fork[] fork = new Fork[n]; // สร้าง Array สำหรับ Object ของส้อม n อัน
-        Philosopher[] philosopher = new Philosopher[n]; // สร้าง Array Object ของ Philosopher n คน
-        // ใส่ code ตรงนี้เพื่อสร้างObject ของส้อม และ Philosopher ให้ชื่อของ
-        // Philosopher คือ P0, P1,... ตามลำดับ
+        Fork[] fork = new Fork[n];
+        Philosopher[] philosopher = new Philosopher[n];
 
-        // TODO : code คือไรน้าา
+        for (int i = 0; i < n; i++) {
+            fork[i] = new Fork();
+        }
+        for (int i = 0; i < n; i++) {
+            String name = "P" + i;
+            philosopher[i] = new Philosopher(name, fork[(i + n - 1) % n], fork[(i + 1) % n]);
+            philosopher[i].start();
+        }
 
-        // ส่วนแสดงผลทุกๆ 100 ms เป็นจ านวน100 ครั้งก่อนให้จบโปรแกรม
         String info;
         for (int i = 0; i < 100; i++) {
             info = "|";

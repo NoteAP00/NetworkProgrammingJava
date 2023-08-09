@@ -47,15 +47,15 @@ public class Philosopher extends Thread {
     public void run() {
         while (!done) {
             think();
-            boolean lt = left.take(name);
-            boolean rt = right.take(name);
-            if(lt & rt){
-                eat();
-                numEat++;
-                done();
-            }else{
-                if(lt) left.putDown();
-                else if (rt) right.putDown(); 
+            if (left.take(name)) {
+                if (right.take(name)) {
+                    eat();
+                    numEat++;
+                    left.putDown();
+                    right.putDown();
+                } else {
+                    left.putDown();
+                }
             }
         }
     }
