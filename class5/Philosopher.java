@@ -1,14 +1,14 @@
 import java.util.*;
 
 public class Philosopher extends Thread {
-    Fork left, right; // อ้างอิงถึง object ของส้อมด้านซ้ายและด้านขวาของ Philosopher
-    String name; // ชื่อของ Philosopher
-    String status = "---"; // สถานะของ Philosopher
+    Fork left, right; 
+    String name; 
+    String status = "---"; 
     int numEat = 0;
     boolean done = false;
     Random r = new Random();
 
-    public Philosopher(String name, Fork left, Fork right) { // รับชื่อ Philosopher และ object ของส้อมซ้าย-ขวา
+    public Philosopher(String name, Fork left, Fork right) { 
         this.left = left;
         this.right = right;
         this.name = name;
@@ -16,17 +16,17 @@ public class Philosopher extends Thread {
 
     public String getStatus() {
         return status;
-    } // เรียกเพื่อคืนค่าสถานะของ Philosopher
+    } 
 
     public int getNumEat() {
         return numEat;
-    } // เรียกเพื่อคืนค่าจำนวนครั้งที่ Philosopher ได้กินอาหาร
+    } 
 
     public void done() {
         done = true;
-    } // เรียกเพื่อหยุดการทำงานของ Philosopher
+    } 
 
-    public void think() { // เรียกเพื่อให้ Philosopher อยู่ในสถานะ คิด (THK)
+    public void think() { 
         status = "THK";
         try {
             Thread.sleep(r.nextInt(150) + 150);
@@ -34,7 +34,7 @@ public class Philosopher extends Thread {
         }
     }
 
-    public void eat() { // เรียกเพื่อให้ Philosopher อยู่ในสถานะ กิน (EAT)
+    public void eat() { 
         status = "EAT";
         try {
             Thread.sleep(r.nextInt(150) + 150);
@@ -42,20 +42,37 @@ public class Philosopher extends Thread {
         }
     }
 
-    // Philosopher จะเริ่มต้นที่คิดเมื่อคิดเสร็จจะหยิบส้อม เมื่อได้ส้อม 2
-    // อันถึงจะสามารถกินได้ เมื่อกินส าเร็จให้เพิ่มค่า numEat
+    
     public void run() {
         while (!done) {
             think();
-            if (left.take(name)) {
-                if (right.take(name)) {
-                    eat();
-                    numEat++;
-                    left.putDown();
-                    right.putDown();
-                } else {
-                    left.putDown();
-                }
+            boolean isEven = Integer.parseInt(name.substring(1)) % 2 == 0 ? true : false;
+            if(isEven){
+                if(left.getHolderName() == "  "){
+                    left.take(name);
+                    if(right.getHolderName() == "  "){
+                        right.take(name);
+                        eat();
+                        numEat++;
+                        left.putDown();
+                        right.putDown();
+                    } else {
+                        left.putDown();
+                    }
+                }            
+            } else {
+                if(right.getHolderName() == "  "){
+                    right.take(name);
+                    if(left.getHolderName() == "  "){
+                        left.take(name);
+                        eat();
+                        numEat++;
+                        left.putDown();
+                        right.putDown();
+                    } else {
+                        right.putDown();
+                    }
+                }    
             }
         }
     }

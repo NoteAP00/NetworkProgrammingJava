@@ -9,7 +9,7 @@ public class DiningPhilosophers {
         }
         for (int i = 0; i < n; i++) {
             String name = "P" + i;
-            philosopher[i] = new Philosopher(name, fork[(i + n - 1) % n], fork[(i + 1) % n]);
+            philosopher[i] = new Philosopher(name, fork[i], fork[(i + 1) % n]);
             philosopher[i].start();
         }
 
