@@ -1,5 +1,5 @@
-import java.util.*;
 import java.net.*;
+import java.util.*;
 
 public class DateTimeServer implements Runnable {
     DatagramSocket socket = null;
@@ -18,6 +18,7 @@ public class DateTimeServer implements Runnable {
             DatagramPacket recvPacket = new DatagramPacket(recvBuffer, recvBuffer.length);
             socket.receive(recvPacket);
             System.out.println("Client Connected . .");
+            String date = (new Date()).toString();
             DatagramPacket sendPacket = new DatagramPacket(thisTime().getBytes(),
                                             thisTime().getBytes().length,
                                             recvPacket.getAddress(),
